@@ -1,0 +1,23 @@
+# Core runtime
+streamlit>=1.20.0
+pandas>=1.5.0
+numpy>=1.23.0
+networkx>=2.8
+matplotlib>=3.5.0
+plotly>=5.0.0
+pyvis>=0.3.2
+python-louvain>=0.16
+wordcloud>=1.8.0
+scikit-learn>=1.0.0
+
+# Export support
+kaleido>=0.2.1
+
+# Optional topic modeling stack
+sentence-transformers>=2.0.0
+umap-learn>=0.5.0
+hdbscan>=0.8.0
+bertopic>=0.16.0
+
+# Development and validation
+pytest>=8.0.0
