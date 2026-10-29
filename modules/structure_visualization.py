@@ -147,7 +147,7 @@ def render_thematic_map(keyword_freq, cooccurrence, top_n=20):
                     size=min(max(item["size"] * 10 + np.sqrt(max(item["keyword_sum"], 1)) * 2.2, 20), 64),
                     color=THEMATIC_QUADRANT_COLORS[quadrant],
                     opacity=0.88,
-                    line=dict(width=1.2, color="white"),
+                    line=dict(width=2, color="white"),
                 ),
                 hovertemplate=(
                     f"<b>{item['label']}</b><br>"
@@ -322,7 +322,7 @@ def render_three_field_plot(df, keywords_list, keyword_freq, top_n_authors=10, t
             node=dict(
                 pad=14,
                 thickness=26,
-                line=dict(color="white", width=0.5),
+                line=dict(color="white", width=2),
                 label=valid_labels,
                 color=node_colors,
                 x=x_coords,
@@ -415,7 +415,7 @@ def render_author_production_over_time(df, top_n=10):
                 y=author_df["Papers"],
                 mode="lines+markers",
                 name=author,
-                line=dict(width=1.6),
+                line=dict(width=2),
                 marker=dict(size=5),
                 customdata=author_df[["Total Papers"]],
                 hovertemplate=(
@@ -569,7 +569,7 @@ def render_hierarchical_cluster_heatmap(keywords_list, keyword_freq, cooccurrenc
         z=triangular_log_matrix,
         x=wrapped_kws,
         y=wrapped_kws,
-        colorscale="YlOrRd",
+        colorscale=[[0, "#ffffff"], [0.2, "#ffffb2"], [0.4, "#fecc5c"], [0.6, "#fd8d3c"], [0.8, "#f03b20"], [1.0, "#bd0026"]],
         hoverongaps=False,
         zmin=0,
         xgap=1,

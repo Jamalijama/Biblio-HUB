@@ -86,7 +86,7 @@ def render_ranked_lollipop_figure(
                 x=[0, row[value_col]],
                 y=[row[label_col], row[label_col]],
                 mode="lines",
-                line=dict(color=_hex_to_rgba(line_color, 0.45), width=3),
+                line=dict(color=_hex_to_rgba(line_color, 0.45), width=1),
                 hoverinfo="skip",
                 showlegend=False,
             )
@@ -100,7 +100,7 @@ def render_ranked_lollipop_figure(
             marker=dict(
                 color=marker_color,
                 size=12,
-                line=dict(color="white", width=1.2),
+                line=dict(color="white", width=2),
             ),
             hovertemplate=f"{label_col}: %{{y}}<br>{value_col}: %{{x}}<extra></extra>",
             showlegend=False,
@@ -294,7 +294,7 @@ def render_circular_cluster_chord_figure(
                 marker=dict(
                     size=cluster_sizes,
                     color=cluster_color,
-                    line=dict(color="white", width=1.2),
+                    line=dict(color="white", width=2),
                     opacity=0.96,
                 ),
                 customdata=[
@@ -508,7 +508,7 @@ def render_country_impact_quadrant_figure(
         y0=citation_median,
         y1=y_max,
         fillcolor="rgba(44,165,129,0.10)",
-        line_width=0,
+        line_width=2,
         layer="below",
     )
     fig.add_shape(
@@ -518,7 +518,7 @@ def render_country_impact_quadrant_figure(
         y0=citation_median,
         y1=y_max,
         fillcolor="rgba(58,127,191,0.10)",
-        line_width=0,
+        line_width=2,
         layer="below",
     )
     fig.add_shape(
@@ -528,7 +528,7 @@ def render_country_impact_quadrant_figure(
         y0=0,
         y1=citation_median,
         fillcolor="rgba(230,126,34,0.10)",
-        line_width=0,
+        line_width=2,
         layer="below",
     )
     fig.add_shape(
@@ -538,7 +538,7 @@ def render_country_impact_quadrant_figure(
         y0=0,
         y1=citation_median,
         fillcolor="rgba(122,122,122,0.10)",
-        line_width=0,
+        line_width=2,
         layer="below",
     )
 
@@ -557,7 +557,7 @@ def render_country_impact_quadrant_figure(
                         for value in quadrant_frame["Total Citations"]
                     ],
                     color=COUNTRY_QUADRANT_COLORS[quadrant_name],
-                    line=dict(color="#222222", width=0.8),
+                    line=dict(color="#222222", width=2),
                     opacity=0.95,
                 ),
                 customdata=quadrant_frame[["Country", "Total Citations"]],
@@ -570,8 +570,8 @@ def render_country_impact_quadrant_figure(
             )
         )
 
-    fig.add_vline(x=publication_median, line_dash="dash", line_color="#666666")
-    fig.add_hline(y=citation_median, line_dash="dash", line_color="#666666")
+    fig.add_vline(x=publication_median, line_dash="dash", line_color="#666666", line_width=2)
+    fig.add_hline(y=citation_median, line_dash="dash", line_color="#666666", line_width=2)
     fig.add_annotation(
         x=publication_median * 0.45,
         y=max(y_max * 0.96, citation_median + 0.5),

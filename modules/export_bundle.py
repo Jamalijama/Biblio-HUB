@@ -35,10 +35,10 @@ MORANDI_SEQUENTIAL_SCALE = [
 ]
 
 KEYWORD_MATRIX_SEQUENTIAL_SCALE = [
-    [0.0, "#fbd2bc"],
-    [0.25, "#feab88"],
-    [0.5, "#b71c2c"],
-    [0.75, "#8b0824"],
+    [0.0, "#fcf4f2"],
+    [0.25, "#fbd2bc"],
+    [0.5, "#feab88"],
+    [0.75, "#b71c2c"],
     [1.0, "#6a0624"],
 ]
 
@@ -976,8 +976,9 @@ def style_publication_figure(fig, height=None, title_visible=True, transparent_b
     export_fig.update_xaxes(
         showline=True,
         linecolor="black",
-        linewidth=1,
+        linewidth=2,
         gridcolor="#D9D9D9",
+        gridwidth=2,
         zeroline=False,
         ticks="outside",
         title_font={"size": 24, "color": "black"},
@@ -986,8 +987,9 @@ def style_publication_figure(fig, height=None, title_visible=True, transparent_b
     export_fig.update_yaxes(
         showline=True,
         linecolor="black",
-        linewidth=1,
+        linewidth=2,
         gridcolor="#D9D9D9",
+        gridwidth=2,
         zeroline=False,
         ticks="outside",
         title_font={"size": 24, "color": "black"},
@@ -1024,7 +1026,12 @@ def plotly_figure_to_bytes(
     title_visible=True,
     transparent_background=False,
 ):
-    export_width, export_height = _resolve_static_export_canvas(export_format, width, height)
+    # Special handling to preserve the manual layout size of the Future Hotspot Map
+    if fig.layout.title.text and "Future Hotspot" in fig.layout.title.text:
+        export_width = 1200
+        export_height = 900
+    else:
+        export_width, export_height = _resolve_static_export_canvas(export_format, width, height)
     export_fig = style_publication_figure(
         fig,
         height=export_height,

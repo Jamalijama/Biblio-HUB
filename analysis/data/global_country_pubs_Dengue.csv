@@ -1,0 +1,178 @@
+﻿Virus,Code,Country,Publications,Total_citations
+Dengue,USA,United States,6883,344320
+Dengue,BRA,Brazil,2981,97035
+Dengue,IND,India,2324,58152
+Dengue,CHN,China,2198,71387
+Dengue,GBR,United Kingdom,1912,111645
+Dengue,FR,France,1612,84646
+Dengue,THA,Thailand,1320,47777
+Dengue,AUS,Australia,1254,63172
+Dengue,SGP,Singapore,1113,67814
+Dengue,MYS,Malaysia,944,30830
+Dengue,DE,Germany,902,48319
+Dengue,TWN,Taiwan,828,33352
+Dengue,JPN,Japan,819,27547
+Dengue,MEX,Mexico,799,26384
+Dengue,COL,Colombia,709,24655
+Dengue,IT,Italy,610,31845
+Dengue,PAK,Pakistan,594,18472
+Dengue,CAN,Canada,534,28225
+Dengue,SAU,Saudi Arabia,490,17559
+Dengue,VNM,Vietnam,457,33431
+Dengue,IDN,Indonesia,450,19932
+Dengue,ES,Spain,438,21131
+Dengue,CHE,Switzerland,426,27224
+Dengue,NL,Netherlands,422,21557
+Dengue,KOR,South Korea,388,15500
+Dengue,ARG,Argentina,387,16650
+Dengue,LKA,Sri Lanka,373,16188
+Dengue,SE,Sweden,333,21945
+Dengue,BE,Belgium,327,19752
+Dengue,PHL,Philippines,236,13764
+Dengue,PT,Portugal,212,12217
+Dengue,ZAF,South Africa,193,19973
+Dengue,AT,Austria,189,13167
+Dengue,CUB,Cuba,181,6863
+Dengue,BGD,Bangladesh,179,8919
+Dengue,EGY,Egypt,169,9731
+Dengue,PER,Peru,164,9739
+Dengue,KEN,Kenya,151,10186
+Dengue,VEN,Venezuela,143,4122
+Dengue,KHM,Cambodia,142,6116
+Dengue,NIC,Nicaragua,134,8913
+Dengue,TUR,Turkey,116,7635
+Dengue,NGA,Nigeria,113,8145
+Dengue,ECU,Ecuador,109,3236
+Dengue,RUS,Russia,104,7836
+Dengue,EL,Greece,104,8455
+Dengue,NPL,Nepal,97,1897
+Dengue,SEN,Senegal,96,3554
+Dengue,TZA,Tanzania,96,8113
+Dengue,ISR,Israel,94,9131
+Dengue,BFA,Burkina Faso,87,1928
+Dengue,CMR,Cameroon,85,7719
+Dengue,URY,Uruguay,83,9670
+Dengue,LAO,Laos,83,2261
+Dengue,IRN,Iran,77,6778
+Dengue,GUF,French Guiana,75,3656
+Dengue,DK,Denmark,75,8021
+Dengue,NO,Norway,70,7955
+Dengue,PAN,Panama,68,6822
+Dengue,CZ,Czechia,66,2630
+Dengue,CRI,Costa Rica,63,5673
+Dengue,FI,Finland,59,6694
+Dengue,CHL,Chile,58,5999
+Dengue,GAB,Gabon,57,3537
+Dengue,TTO,Trinidad and Tobago,54,1980
+Dengue,MMR,Myanmar,53,5295
+Dengue,NCL,New Caledonia,53,9757
+Dengue,GHA,Ghana,53,13662
+Dengue,SDN,Sudan,51,1016
+Dengue,NZL,New Zealand,49,6097
+Dengue,PRY,Paraguay,47,1087
+Dengue,ETH,Ethiopia,45,6184
+Dengue,PL,Poland,43,4290
+Dengue,DOM,Dominican Republic,41,1813
+Dengue,YEM,Yemen,39,958
+Dengue,IE,Ireland,36,4826
+Dengue,ARE,United Arab Emirates,36,5751
+Dengue,RO,Romania,34,6026
+Dengue,HND,Honduras,33,3691
+Dengue,JAM,Jamaica,30,470
+Dengue,MDG,Madagascar,29,975
+Dengue,EE,Estonia,27,5933
+Dengue,UGA,Uganda,27,6089
+Dengue,MOZ,Mozambique,27,640
+Dengue,BOL,Bolivia,25,1006
+Dengue,BEN,Benin,24,6685
+Dengue,FJI,Fiji,23,4409
+Dengue,GTM,Guatemala,23,568
+Dengue,LBN,Lebanon,21,5479
+Dengue,CIV,Cote d'Ivoire,21,5416
+Dengue,SRB,Serbia,20,5528
+Dengue,BRB,Barbados,20,518
+Dengue,IRQ,Iraq,19,5540
+Dengue,MAR,Morocco,19,5305
+Dengue,PNG,Papua New Guinea,19,5515
+Dengue,COG,Congo,19,673
+Dengue,QAT,Qatar,17,5316
+Dengue,OMN,Oman,17,5615
+Dengue,JOR,Jordan,17,5404
+Dengue,COD,DR Congo,16,422
+Dengue,SLV,El Salvador,16,762
+Dengue,HTI,Haiti,16,549
+Dengue,SI,Slovenia,16,482
+Dengue,HU,Hungary,15,444
+Dengue,DZA,Algeria,15,4007
+Dengue,CPV,Cape Verde,14,204
+Dengue,TUN,Tunisia,14,5499
+Dengue,CY,Cyprus,13,1829
+Dengue,SK,Slovakia,13,5432
+Dengue,ANT,Netherlands Antilles,13,152
+Dengue,MLI,Mali,13,376
+Dengue,MUS,Mauritius,12,360
+Dengue,AFG,Afghanistan,12,1570
+Dengue,HR,Croatia,12,475
+Dengue,BG,Bulgaria,12,1709
+Dengue,CAF,Central African Republic,11,516
+Dengue,LT,Lithuania,11,262
+Dengue,SLB,Solomon Islands,10,176
+Dengue,ALB,Albania,10,275
+Dengue,ZMB,Zambia,10,3858
+Dengue,AGO,Angola,10,4070
+Dengue,LU,Luxembourg,9,3756
+Dengue,BTN,Bhutan,9,273
+Dengue,GIN,Guinea,9,242
+Dengue,BWA,Botswana,9,150
+Dengue,MWI,Malawi,8,356
+Dengue,RWA,Rwanda,8,5291
+Dengue,GMB,Gambia,8,4045
+Dengue,KWT,Kuwait,8,65
+Dengue,GRD,Grenada,8,193
+Dengue,SUR,Suriname,8,196
+Dengue,MRT,Mauritania,7,111
+Dengue,BHR,Bahrain,7,5203
+Dengue,ZWE,Zimbabwe,7,3894
+Dengue,SOM,Somalia,6,238
+Dengue,GUY,Guyana,6,727
+Dengue,UKR,Ukraine,6,5136
+Dengue,TGO,Togo,6,3685
+Dengue,MDV,Maldives,6,112
+Dengue,BLZ,Belize,6,65
+Dengue,BRN,Brunei,6,148
+Dengue,KNA,Saint Kitts and Nevis,6,89
+Dengue,GEO,Georgia,5,5286
+Dengue,SLE,Sierra Leone,5,199
+Dengue,MNE,Montenegro,5,151
+Dengue,FSM,Micronesia,5,6085
+Dengue,VUT,Vanuatu,4,161
+Dengue,MDA,Moldova,4,165
+Dengue,DJI,Djibouti,4,86
+Dengue,PSE,Palestine,4,1662
+Dengue,IS,Iceland,4,5220
+Dengue,SYR,Syria,3,33
+Dengue,LV,Latvia,3,25
+Dengue,KAZ,Kazakhstan,3,42
+Dengue,COM,Comoros,3,101
+Dengue,CYM,Cayman Islands,3,64
+Dengue,MHL,Marshall Islands,3,78
+Dengue,NER,Niger,3,22
+Dengue,DMA,Dominica,3,61
+Dengue,TLS,Timor-Leste,2,9
+Dengue,SYC,Seychelles,2,29
+Dengue,MNG,Mongolia,2,14
+Dengue,NAM,Namibia,2,39
+Dengue,LBR,Liberia,2,27
+Dengue,AZE,Azerbaijan,2,53
+Dengue,LBY,Libya,2,1493
+Dengue,BLR,Belarus,2,13
+Dengue,WSM,Samoa,2,52
+Dengue,TON,Tonga,2,87
+Dengue,MKD,North Macedonia,2,23
+Dengue,XKX,Kosovo,1,6
+Dengue,BDI,Burundi,1,24
+Dengue,PRK,North Korea,1,17
+Dengue,MT,Malta,1,25
+Dengue,ARM,Armenia,1,20
+Dengue,BIH,Bosnia and Herzegovina,1,17
+Dengue,GNB,Guinea-Bissau,1,92

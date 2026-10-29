@@ -1038,7 +1038,7 @@ if page == "Dataset Overview":
             y=year_df["Publications"],
             mode="lines",
             name="Overall Trend",
-            line=dict(color="rgba(79, 109, 138, 0.48)", width=1.5, shape="spline", smoothing=1.05),
+            line=dict(color="rgba(79, 109, 138, 0.48)", width=1, shape="spline", smoothing=1.05),
         )
         fig.update_layout(
             title="Publications by Year",
@@ -1633,11 +1633,14 @@ elif page == "Temporal Trend & Topic Evolution":
                             st.session_state["bt_active_signature"] = None
                             st.info("BERTopic task cancelled.")
                 elif active_job_state and active_job_state["status"] == "error":
+                    error_msg = active_job_state.get("error", "Unknown error")
                     log_exception(
                         "bertopic_background_task",
-                        RuntimeError(active_job_state.get("error", "Unknown error")),
+                        RuntimeError(error_msg),
                     )
-                    st.error(f"BERTopic background task failed: {active_job_state.get('error', 'Unknown error')}")
+                    st.error(f"BERTopic background task failed: {error_msg}")
+                    if "Cannot send a request, as the client has been closed" in str(error_msg) or "MaxRetryError" in str(error_msg):
+                        st.info("💡 **Tip**: The Sentence-Transformer model needs to download its weights from HuggingFace upon first run. Please ensure your internet connection is active (and proxy is properly configured if needed), or pre-download the model manually.")
                 else:
                     st.info("Click `Run Quick Preview` or `Run Full Analysis` to start semantic topic modeling. Results are cached for the current parameter setting.")
                 if topic_info is not None and len(topic_info) > 1:
@@ -2984,7 +2987,7 @@ elif page == "Citation, Category & Source Analysis":
                     title='Top 20 Funding Agencies'
                 )
                 fig_fund = apply_publication_style_with_overrides(fig_fund, fund_style)
-                fig_fund.update_traces(marker_color=fund_style['primary_color'], line=dict(color="white", width=1))
+                fig_fund.update_traces(marker_color=fund_style['primary_color'], line=dict(color="white", width=2))
                 fig_fund.update_yaxes(
                     categoryorder="array",
                     categoryarray=list(reversed(fund_plot_df["Funding Agency"].tolist())),
@@ -3100,7 +3103,7 @@ elif page == "Citation, Category & Source Analysis":
                     title='Top 25 Publishers by Publication Count'
                 )
                 fig_pub = apply_publication_style_with_overrides(fig_pub, pub_style)
-                fig_pub.update_traces(marker_color=pub_style['primary_color'], line=dict(color="white", width=1))
+                fig_pub.update_traces(marker_color=pub_style['primary_color'], line=dict(color="white", width=2))
                 fig_pub.update_yaxes(
                     categoryorder="array",
                     categoryarray=list(reversed(pub_plot_df["Publisher"].tolist())),

@@ -244,7 +244,7 @@ def render_alluvial_topic_flow(
                 node=dict(
                     pad=18,
                     thickness=18,
-                    line=dict(color="rgba(80,80,80,0.35)", width=0.5),
+                    line=dict(color="rgba(80,80,80,0.35)", width=1),
                     label=labels,
                     color=colors,
                     x=node_x,
@@ -415,7 +415,7 @@ def render_entity_forecast_rank_figure(summary_df, entity_label, top_n=10):
                 x=[0, row["Projected Growth (%)"]],
                 y=[row[entity_label], row[entity_label]],
                 mode="lines",
-                line=dict(color="rgba(94,55,157,0.35)", width=3),
+                line=dict(color="rgba(94,55,157,0.35)", width=1),
                 hoverinfo="skip",
                 showlegend=False,
             )
@@ -426,7 +426,7 @@ def render_entity_forecast_rank_figure(summary_df, entity_label, top_n=10):
             x=plot_df["Projected Growth (%)"],
             y=plot_df[entity_label],
             mode="markers",
-            marker=dict(color="#5E379D", size=12, line=dict(color="white", width=1.1)),
+            marker=dict(color="#5E379D", size=12, line=dict(color="white", width=2)),
             customdata=plot_df[["Projected Next Count", "Latest Count"]],
             hovertemplate=(
                 "<b>%{y}</b><br>"
@@ -481,7 +481,7 @@ def render_entity_forecast_trajectory_figure(series_df, entity_label, top_n=5):
                     y=actual_df["Count"],
                     mode="lines+markers",
                     name=entity,
-                    line=dict(color=color, width=1.8),
+                    line=dict(color=color, width=2),
                     marker=dict(size=5, color=color),
                     hovertemplate=f"<b>{entity}</b><br>Year: %{{x}}<br>Count: %{{y}}<br>Series: Actual<extra></extra>",
                 )
@@ -495,7 +495,7 @@ def render_entity_forecast_trajectory_figure(series_df, entity_label, top_n=5):
                     y=forecast_y,
                     mode="lines+markers",
                     name=f"{entity} Forecast",
-                    line=dict(color=color, width=1.5, dash="dash"),
+                    line=dict(color=color, width=2, dash="dash"),
                     marker=dict(size=4.5, color=color),
                     showlegend=False,
                     hovertemplate=f"<b>{entity}</b><br>Year: %{{x}}<br>Count: %{{y}}<br>Series: Forecast<extra></extra>",
@@ -675,7 +675,7 @@ def render_entity_leadership_shift_figure(summary_df, entity_label, top_n=10):
         title=f"{entity_label} Leadership Shift",
     )
     fig.update_traces(
-        marker=dict(line=dict(color="white", width=1)),
+        marker=dict(line=dict(color="white", width=2)),
         customdata=plot_df[["Recent Share (%)", "Baseline Share (%)", "Leadership Momentum (%)"]],
         hovertemplate=(
             "<b>%{hovertext}</b><br>"
@@ -716,6 +716,10 @@ def render_entity_leadership_trajectory_figure(series_df, summary_df, entity_lab
         markers=True,
         title=f"{entity_label} Leadership Share Over Time",
         color_discrete_sequence=px.colors.qualitative.Set2 + px.colors.qualitative.Safe,
+    )
+    fig.update_traces(
+        line=dict(width=2),
+        marker=dict(size=6),
     )
     fig.update_layout(
         height=580,
@@ -827,17 +831,24 @@ def build_theme_migration_forecast_tables(
         node = nodes[node_id]
         chain_period_rows.append(
             {
-                "Chain ID": chain_id,
-                "Theme Cluster": f"Theme {chain_id}: " + " / ".join(node["label_keywords"]),
+                "Chain ID": str(chain_id),
                 "Period Index": node["period_idx"],
                 "Period": node["period"],
                 "Theme Weight": node["weight"],
                 "Representative Keywords": ", ".join(node["label_keywords"]),
+                "Node Label": f"Theme {chain_id}: " + " / ".join(node["label_keywords"]),
             }
         )
     chain_period_df = pd.DataFrame(chain_period_rows)
     if chain_period_df.empty:
         return pd.DataFrame(), pd.DataFrame()
+
+    # Make Theme Cluster name constant per chain based on its latest node
+    chain_names = {}
+    for chain_id, group in chain_period_df.groupby("Chain ID"):
+        latest_node = group.sort_values("Period Index").iloc[-1]
+        chain_names[chain_id] = latest_node["Node Label"]
+    chain_period_df["Theme Cluster"] = chain_period_df["Chain ID"].map(chain_names)
 
     summary_rows = []
     for chain_id, group in chain_period_df.groupby("Chain ID", sort=True):
@@ -845,10 +856,20 @@ def build_theme_migration_forecast_tables(
         weights = group["Theme Weight"].astype(float).to_numpy()
         period_indices = group["Period Index"].astype(float).to_numpy()
         latest_weight = float(weights[-1])
-        previous_weight = float(weights[-2]) if len(weights) >= 2 else 0.0
-        baseline = max(previous_weight, 1.0)
-        recent_growth = ((latest_weight - previous_weight) / baseline) * 100.0 if len(weights) >= 2 else 0.0
-        slope = float(np.polyfit(period_indices, weights, 1)[0]) if len(weights) >= 2 else 0.0
+        
+        # If the theme only exists in 1 slice (newly emerged), we can't calculate a historical slope
+        if len(weights) >= 2:
+            previous_weight = float(weights[-2])
+            baseline = max(previous_weight, 1.0)
+            recent_growth = ((latest_weight - previous_weight) / baseline) * 100.0
+            slope = float(np.polyfit(period_indices, weights, 1)[0])
+        else:
+            # For brand new themes that just appeared in the latest slice:
+            # They grew from 0 to `latest_weight`, so growth is practically 100% (or their absolute weight as a proxy)
+            # And their slope is basically their current weight (assuming they started at 0 in the previous slice)
+            recent_growth = latest_weight * 100.0 if latest_weight > 0 else 0.0
+            slope = latest_weight
+            
         projected_next_weight = max(0.0, latest_weight + slope)
         age = int(len(group))
         if age <= 2 and recent_growth > 0:
@@ -886,8 +907,8 @@ def render_theme_migration_trajectory_figure(chain_period_df, summary_df, top_n=
     if chain_period_df is None or chain_period_df.empty or summary_df is None or summary_df.empty:
         return None
 
-    top_chain_ids = summary_df.head(top_n)["Chain ID"].tolist()
-    plot_df = chain_period_df[chain_period_df["Chain ID"].isin(top_chain_ids)].copy()
+    top_chain_ids = summary_df.head(top_n)["Chain ID"].astype(str).tolist()
+    plot_df = chain_period_df[chain_period_df["Chain ID"].astype(str).isin(top_chain_ids)].copy()
     if plot_df.empty:
         return None
 
@@ -902,6 +923,8 @@ def render_theme_migration_trajectory_figure(chain_period_df, summary_df, top_n=
         color_discrete_sequence=px.colors.qualitative.Set2 + px.colors.qualitative.Safe,
     )
     fig.update_traces(
+        line=dict(width=2),
+        marker=dict(size=6),
         customdata=plot_df[["Representative Keywords"]],
         hovertemplate=(
             "<b>%{fullData.name}</b><br>"
@@ -946,7 +969,8 @@ def render_theme_migration_opportunity_map(summary_df, top_n=12):
     )
     fig.update_traces(
         textposition="top center",
-        marker=dict(line=dict(color="white", width=1)),
+        marker=dict(line=dict(color="white", width=2)),
+        cliponaxis=False,  # VERY IMPORTANT: Prevents bubbles from being cut off at the edges
         customdata=plot_df[["Representative Keywords", "Latest Slice"]],
         hovertemplate=(
             "<b>%{hovertext}</b><br>"
@@ -956,16 +980,32 @@ def render_theme_migration_opportunity_map(summary_df, top_n=12):
             + "Keywords: %{customdata[0]}<extra></extra>"
         ),
     )
+    
+    # Calculate padding for axes to prevent clipping
+    # Significantly increased padding to 30% to keep bubbles far away from edges
+    x_min, x_max = plot_df["Recent Growth (%)"].min(), plot_df["Recent Growth (%)"].max()
+    y_min, y_max = plot_df["Projected Next Weight"].min(), plot_df["Projected Next Weight"].max()
+    x_pad = (x_max - x_min) * 0.3 if x_max != x_min else 20
+    y_pad = (y_max - y_min) * 0.3 if y_max != y_min else 20
+    
     fig.update_layout(
-        height=620,
+        height=900,
+        width=1200,  # Scaled up while preserving 4:3 proportion
+        margin=dict(l=80, r=80, t=100, b=80), # Further increased margins
         xaxis_title="Recent Growth (%)",
         yaxis_title="Projected Next Theme Weight",
         legend_title="Signal Type",
         plot_bgcolor="white",
         paper_bgcolor="white",
     )
-    fig.update_xaxes(showgrid=True, gridcolor="lightgray")
-    fig.update_yaxes(showgrid=True, gridcolor="lightgray", rangemode="tozero")
+    # Reverting log scale because Recent Growth can be negative and Projected Next Weight can be 0,
+    # which makes points disappear on a log scale.
+    fig.update_xaxes(showgrid=True, gridcolor="lightgray", range=[x_min - x_pad, x_max + x_pad])
+    fig.update_yaxes(showgrid=True, gridcolor="lightgray", rangemode="tozero", range=[0, y_max + y_pad])
+    
+    # Increase the minimum marker size so small points are visible
+    fig.update_traces(marker=dict(sizemin=8, sizeref=max(plot_df["Latest Weight"].max() / 100, 1) if not plot_df.empty else 1))
+    
     return fig
 
 
@@ -1015,7 +1055,7 @@ def render_citespace_timeline(df, keywords_list, keyword_freq, top_n=20):
                 y=counts,
                 name=kw,
                 mode="lines+markers",
-                line=dict(width=1.25, color=colors[idx % len(colors)]),
+                line=dict(width=2, color=colors[idx % len(colors)]),
                 marker=dict(size=4.5),
                 opacity=0.9,
             )
@@ -1243,7 +1283,7 @@ def render_keyword_growth_leader_figure(growth_df, top_n=12):
                 x=[0, row["Growth Rate (%)"]],
                 y=[row["Keyword"], row["Keyword"]],
                 mode="lines",
-                line=dict(color="rgba(47,116,184,0.35)", width=3),
+                line=dict(color="rgba(47,116,184,0.35)", width=1),
                 hoverinfo="skip",
                 showlegend=False,
             )
@@ -1254,7 +1294,7 @@ def render_keyword_growth_leader_figure(growth_df, top_n=12):
             x=plot_df["Growth Rate (%)"],
             y=plot_df["Keyword"],
             mode="markers",
-            marker=dict(color="#2F74B8", size=12, line=dict(color="white", width=1.1)),
+            marker=dict(color="#2F74B8", size=12, line=dict(color="white", width=2)),
             customdata=plot_df[["Net Change (pp)", "Latest Count", "Latest Year"]],
             hovertemplate=(
                 "<b>%{y}</b><br>"
@@ -1298,6 +1338,7 @@ def render_keyword_growth_trend_figure(yearly_df, growth_df, top_n=6):
         color_discrete_sequence=px.colors.qualitative.Set2,
     )
     fig.update_traces(
+        line=dict(width=2),
         customdata=plot_df[["Count", "Publications"]],
         hovertemplate=(
             "<b>%{fullData.name}</b><br>"
@@ -1374,7 +1415,7 @@ def render_publication_forecast_figure(forecast_df):
                 y=part["Publications"],
                 mode="lines+markers",
                 name=series_name,
-                line=dict(color=color, width=1.8, dash=dash),
+                line=dict(color=color, width=2, dash=dash),
                 marker=dict(size=5, color=color),
             )
         )
@@ -1510,14 +1551,16 @@ def render_keyword_opportunity_map(opportunity_df, top_n=20):
         y="Growth Rate (%)",
         size="Recent Count",
         color="Signal Type",
-        text=plot_df["Keyword"].where(plot_df["Keyword"].isin(top_labels), ""),
+        text=plot_df["Keyword"],
         hover_name="Keyword",
         color_discrete_map=color_map,
         title="Keyword Opportunity Map",
     )
     fig.update_traces(
-        marker=dict(line=dict(color="white", width=1)),
+        marker=dict(line=dict(color="white", width=2)),
         textposition="top center",
+        textfont=dict(size=13),
+        cliponaxis=False,
         customdata=plot_df[["Recent Count", "Total Frequency"]],
         hovertemplate=(
             "<b>%{hovertext}</b><br>"
@@ -1832,7 +1875,7 @@ def render_burst_figure(burst_df, label_column="Keyword", title="Burst Detection
                 y=[y_pos],
                 base=[info["Start"] - 0.4],
                 orientation="h",
-                marker=dict(color=color, line=dict(color="#C23D3D", width=0.8)),
+                marker=dict(color=color, line=dict(color="#C23D3D", width=2)),
                 text=(
                     f"{info['Start']}-{info['End']} | Raw={info['Burst Strength']:.2f}"
                     f" | Adj={info['Adjusted Burst Score']:.2f}"

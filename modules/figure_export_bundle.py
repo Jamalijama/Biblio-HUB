@@ -114,10 +114,10 @@ WORDCLOUD_COLORMAP = LinearSegmentedColormap.from_list(
     ],
 )
 KEYWORD_MATRIX_SEQUENTIAL_SCALE = [
-    [0.0, "#fbd2bc"],
-    [0.25, "#feab88"],
-    [0.5, "#b71c2c"],
-    [0.75, "#8b0824"],
+    [0.0, "#fcf4f2"],
+    [0.25, "#fbd2bc"],
+    [0.5, "#feab88"],
+    [0.75, "#b71c2c"],
     [1.0, "#6a0624"],
 ]
 
@@ -185,6 +185,7 @@ def generate_all_figure_bundle(
     bundle_zip=None,
     network_export_modes=None,
     analysis_parameters=None,
+    cached_bertopic=None,
 ):
     if bundle_zip is None:
         bundle_buffer = io.BytesIO()
@@ -460,6 +461,13 @@ def generate_all_figure_bundle(
         return "publication"
 
     network_html_items = []
+
+    keyword_opportunity_topn = get_analysis_value("keyword_opportunity_topn", 20)
+    theme_migration_slices = get_analysis_value("theme_migration_slices", 4)
+    theme_migration_topn = get_analysis_value("theme_migration_topn", 10)
+    bt_min_docs = get_analysis_value("bt_min_docs", 3)
+    bt_topn = get_analysis_value("bt_topn", 10)
+    bt_evo_topn = get_analysis_value("bt_evo_topn", 8)
 
     df_valid_year = None
     if "Year" in df.columns and any(
@@ -915,6 +923,29 @@ def generate_all_figure_bundle(
                 summarize_keyword_opportunity_map(keyword_opportunity_df, top_n=keyword_opportunity_topn),
             )
 
+    if "Year" in df.columns and keyword_freq and include("temporal_keyword_growth_leader"):
+        from modules.temporal_analysis import build_keyword_growth_tables, render_keyword_growth_leader_figure, render_keyword_growth_trend_figure
+        growth_df, yearly_df = build_keyword_growth_tables(
+            df,
+            keywords_list,
+            keyword_freq,
+            top_n_keywords=max(30, keyword_opportunity_topn * 2),
+            lookback_years=4,
+            min_total_occurrences=3,
+        )
+        if not growth_df.empty:
+            fig_rank = render_keyword_growth_leader_figure(growth_df, top_n=keyword_opportunity_topn)
+            if fig_rank is not None:
+                add_plotly(f"03_temporal/keyword_growth_leader_rank.{export_format}", fig_rank, height=max(850, fig_rank.layout.height or 850))
+            
+            top_growth_keywords = growth_df.head(min(5, keyword_opportunity_topn))["Keyword"].tolist()
+            if top_growth_keywords and not yearly_df.empty:
+                fig_trend = render_keyword_growth_trend_figure(yearly_df, growth_df, top_n=min(5, keyword_opportunity_topn))
+                if fig_trend is not None:
+                    add_plotly(f"03_temporal/keyword_growth_leader_trajectories.{export_format}", fig_trend, height=max(850, fig_trend.layout.height or 850))
+            
+            add_dataframe("07_analysis_tables/keyword_growth_leader.csv", growth_df.head(keyword_opportunity_topn))
+
     if "Year" in df.columns and "Journal" in df.columns and include("temporal_journal_growth_forecast"):
         entity_summary_df, entity_series_df, entity_label = build_entity_forecast_tables(
             df,
@@ -1046,6 +1077,29 @@ def generate_all_figure_bundle(
             add_dataframe("07_analysis_tables/theme_migration_chain_series.csv", theme_chain_df)
             add_text("07_analysis_tables/theme_migration_interpretation.txt", summarize_theme_migration_signals(theme_summary_df, top_n=min(5, theme_migration_topn)))
 
+    # BERTopic Exports
+    if cached_bertopic and cached_bertopic.get("data"):
+        from modules.topic_modeling import render_bertopic_overview, render_bertopic_evolution, render_bertopic_comparison
+        topic_model, topics, probs, topic_info, topics_over_time = cached_bertopic["data"]
+
+        if include("semantic_bertopic_overview") and topic_info is not None:
+            fig_bt_overview = render_bertopic_overview(topic_info, bt_topn)
+            if fig_bt_overview:
+                add_plotly(f"04_statistics/bertopic_overview.{export_format}", fig_bt_overview, height=850)
+            add_dataframe("07_analysis_tables/bertopic_overview.csv", topic_info)
+
+        if include("semantic_bertopic_evolution") and topics_over_time is not None:
+            fig_bt_evo = render_bertopic_evolution(topics_over_time, bt_evo_topn)
+            if fig_bt_evo:
+                add_plotly(f"03_temporal/bertopic_evolution.{export_format}", fig_bt_evo, height=850)
+            add_dataframe("07_analysis_tables/bertopic_evolution.csv", topics_over_time)
+
+        if include("semantic_bertopic_comparison") and keyword_freq and topic_info is not None:
+            fig_bt_comp = render_bertopic_comparison(keyword_freq, topic_info, bt_topn)
+            if fig_bt_comp:
+                add_plotly(f"04_statistics/bertopic_comparison.{export_format}", fig_bt_comp, height=850)
+
+    # 4. Statistical Indicators
     if "Year" in df.columns and include("structure_annual_growth_rate"):
         year_counts = df_valid_year["Year"].value_counts().sort_index() if df_valid_year is not None else pd.Series(dtype=int)
         growth_data = []
@@ -1296,7 +1350,7 @@ def generate_all_figure_bundle(
                 size_max=24,
                 title="Top 20 Funding Agencies",
             )
-            fig.update_traces(marker_color=SCIENTIFIC_COLORWAY[8], line=dict(color="white", width=1))
+            fig.update_traces(marker_color=SCIENTIFIC_COLORWAY[8], line=dict(color="white", width=2))
             fig.update_yaxes(
                 categoryorder="array",
                 categoryarray=list(reversed(fund_plot_df["Funding Agency"].tolist())),
@@ -1380,7 +1434,7 @@ def generate_all_figure_bundle(
                 size_max=24,
                 title="Top 25 Publishers by Publication Count",
             )
-            fig.update_traces(marker_color=SCIENTIFIC_COLORWAY[9], line=dict(color="white", width=1))
+            fig.update_traces(marker_color=SCIENTIFIC_COLORWAY[9], line=dict(color="white", width=2))
             fig.update_yaxes(
                 categoryorder="array",
                 categoryarray=list(reversed(pub_plot_df["Publisher"].tolist())),

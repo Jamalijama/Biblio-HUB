@@ -21,3 +21,7 @@ bertopic>=0.16.0
 
 # Development and validation
 pytest>=8.0.0
+
+# Four-virus analysis reproduction (analysis/figures/)
+scipy>=1.9.0
+adjustText>=0.8

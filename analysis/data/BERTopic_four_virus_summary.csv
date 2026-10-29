@@ -1,0 +1,5 @@
+﻿virus,n_docs(full),n_topics,HDBSCAN_outlier_raw_%,coverage_after_assignment_%,ARI_seed42_vs_123_2024,min_cluster_size,umap_n_neighbors,runtime_min
+chik,9006,19,35.1,100.0,"[0.732, 0.712]",60,30,3.4
+dengue,29353,23,36.0,100.0,"[0.827, 0.82]",176,30,15.3
+zika,10939,21,33.4,100.0,"[0.781, 0.67]",66,30,6.9
+wnv,10969,24,45.6,100.0,"[0.822, 0.819]",66,30,6.2

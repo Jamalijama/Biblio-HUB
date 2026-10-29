@@ -1,0 +1,5 @@
+﻿Virus,eligible,matched,match_rate,unmatched_blocks
+Chikungunya,8024,7941,0.9897,14
+Zika,9991,9961,0.997,5
+Dengue,23185,22936,0.9893,13
+West Nile,8071,7953,0.9854,5

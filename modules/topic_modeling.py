@@ -162,6 +162,7 @@ def run_bertopic_analysis(df, min_docs=3, include_topics_over_time=True):
         from bertopic import BERTopic
         from hdbscan import HDBSCAN
         from umap import UMAP
+        from sklearn.feature_extraction.text import CountVectorizer
     except ImportError as exc:
         print(f"BERTopic dependencies missing: {exc}")
         return "MISSING_LIB", str(exc), None
@@ -192,10 +193,12 @@ def run_bertopic_analysis(df, min_docs=3, include_topics_over_time=True):
         cluster_selection_method="eom",
         prediction_data=True,
     )
+    vectorizer_model = CountVectorizer(stop_words="english")
     topic_model = BERTopic(
         embedding_model=sentence_model,
         umap_model=umap_model,
         hdbscan_model=hdbscan_model,
+        vectorizer_model=vectorizer_model,
         verbose=False,
         language="english",
     )
@@ -289,7 +292,7 @@ def render_bertopic_evolution(topics_over_time, top_n=10):
                 y=topic_data["Frequency"],
                 name=name,
                 mode="lines+markers",
-                line=dict(width=2.5, color=colors[idx % len(colors)]),
+                line=dict(width=2, color=colors[idx % len(colors)]),
                 marker=dict(size=7),
                 hovertemplate=f"<b>{name}</b><br>Year: %{{x}}<br>Documents: %{{y}}<extra></extra>",
             )

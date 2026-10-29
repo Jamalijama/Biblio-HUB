@@ -629,8 +629,8 @@ def render_network_publication_figure(
                         color=info.get("color", "#888888"),
                         symbol="square" if info.get("shape") == "square" else "circle",
                         line=dict(
-                            color=info.get("border_color", "rgba(0,0,0,0)"),
-                            width=info.get("border_width", 0),
+                            color=info.get("border_color", "white"),
+                            width=info.get("border_width", 0.25),
                         ),
                         opacity=0.95 if mode == "map" else 0.97,
                     ),

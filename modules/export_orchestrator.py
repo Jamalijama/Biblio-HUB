@@ -82,6 +82,7 @@ def generate_master_export(
     export_format="png",
     network_export_modes=None,
     analysis_parameters=None,
+    cached_bertopic=None,
 ):
     """
     One-click export for ALL figures and ALL data tables.
@@ -97,6 +98,7 @@ def generate_master_export(
             bundle_zip=master_zip,
             network_export_modes=network_export_modes,
             analysis_parameters=analysis_parameters,
+            cached_bertopic=cached_bertopic,
         )
                                 
         generate_export_zip(df, keyword_freq, cooccurrence, zip_file=master_zip)
@@ -132,6 +134,10 @@ def get_available_figure_options(df, keyword_freq):
         add_option("temporal_journal_growth_forecast", "Temporal / Journal Growth Forecast")
     if "Year" in df.columns and keyword_freq:
         add_option("temporal_keyword_opportunity_map", "Temporal / Keyword Opportunity Map")
+        add_option("temporal_keyword_growth_leader", "Temporal / Keyword Growth Trajectories")
+        add_option("semantic_bertopic_overview", "Semantic / BERTopic Overview")
+        add_option("semantic_bertopic_evolution", "Semantic / BERTopic Evolution")
+        add_option("semantic_bertopic_comparison", "Semantic / BERTopic Comparison")
     if "Year" in df.columns and "Affiliations" in df.columns:
         add_option("temporal_country_growth_forecast", "Temporal / Country Growth Forecast")
         add_option("temporal_institution_growth_forecast", "Temporal / Institution Growth Forecast")

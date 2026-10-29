@@ -1233,7 +1233,7 @@ def render_structural_hole_brokerage_profile(df_structural_hole, top_n=20, label
     fig.update_traces(
         textposition="top center",
         textfont=dict(size=10),
-        marker=dict(line=dict(width=1, color="white"), opacity=0.88),
+        marker=dict(line=dict(width=2, color="white"), opacity=0.88),
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "Brokerage score: %{customdata[1]:.4f}<br>"

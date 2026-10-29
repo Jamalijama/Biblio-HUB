@@ -190,9 +190,12 @@ def _collect_innovation_analysis_parameters(df, bundle_format_value):
         {"key": "di_extremes_require_topic_match", "label": "DI Extremes Require Topic Match", "value": st.session_state.get("di_extremes_require_topic_match", False), "default": False, "group": "Innovation"},
         {"key": "cs_topn", "label": "Timeline Top Keywords", "value": st.session_state.get("cs_topn", 15), "default": 15, "group": "Temporal"},
         {"key": "burst_topn", "label": "Burst Detection Keyword Count", "value": st.session_state.get("burst_topn", 20), "default": 20, "group": "Temporal"},
+        {"key": "keyword_opportunity_topn", "label": "Keyword Opportunity Map Count", "value": st.session_state.get("keyword_opportunity_topn", 20), "default": 20, "group": "Temporal"},
         {"key": "bt_min_docs", "label": "BERTopic Minimum Documents", "value": st.session_state.get("bt_min_docs", 3), "default": 3, "group": "Semantic Topic Modeling"},
         {"key": "bt_topn", "label": "BERTopic Displayed Topics", "value": st.session_state.get("bt_topn", 10), "default": 10, "group": "Semantic Topic Modeling"},
         {"key": "bt_evo_topn", "label": "BERTopic Evolution Topics", "value": st.session_state.get("bt_evo_topn", 8), "default": 8, "group": "Semantic Topic Modeling"},
+        {"key": "theme_migration_slices", "label": "Theme Migration Slices", "value": st.session_state.get("theme_migration_slices", 4), "default": 4, "group": "Temporal"},
+        {"key": "theme_migration_topn", "label": "Theme Migration Top N", "value": st.session_state.get("theme_migration_topn", 10), "default": 10, "group": "Temporal"},
         {"key": "mat_topn", "label": "Matrix Top Keywords", "value": st.session_state.get("mat_topn", 15), "default": 15, "group": "Structure"},
         {"key": "tm_topn", "label": "Thematic Map Top Keywords", "value": st.session_state.get("tm_topn", 20), "default": 20, "group": "Structure"},
         {"key": "author_time_topn", "label": "Author Timeline Top Authors", "value": st.session_state.get("author_time_topn", 10), "default": 10, "group": "Structure"},
@@ -417,13 +420,7 @@ def render_innovation_analysis_panel(df, bundle_format_value=None, halt_if_missi
             fig_di = apply_publication_style_with_overrides(fig_di, di_style)
             render_plotly_chart(fig_di, width="stretch")
             if show_export_downloads and get_plotly_static_export_status().get("available", False):
-                _local_download(
-                    "innovation",
-                    label="Download Disruption Index Distribution",
-                    data=plotly_figure_to_bytes(fig_di, bundle_format_value, width=2100, height=1485),
-                    file_name=f"Biblio-HUB_disruption_index_distribution.{bundle_format_value}",
-                    mime=figure_mime,
-                )
+                download_plotly_button(fig_di, f"Biblio-HUB_disruption_index_distribution.{bundle_format_value}", "Download Disruption Index Distribution")
         disruptive_cols = [c for c in ["Title", "Year", "Disruption_Index", "Support", "Internal_Citers", "DI_nd", "DI_nc", "DI_na"] if c in df_di_report.columns or c == "Support"]
         top_disruptive = rank_disruption_extremes(df_di_report, kind="disruptive", top_n=10)[disruptive_cols]
         top_consolidating = rank_disruption_extremes(df_di_report, kind="consolidating", top_n=10)[disruptive_cols]
@@ -471,15 +468,8 @@ def render_innovation_analysis_panel(df, bundle_format_value=None, halt_if_missi
         )
         brokerage_profile_fig = apply_publication_style_with_overrides(brokerage_profile_fig, sh_style)
         render_plotly_chart(brokerage_profile_fig, width="stretch")
-        if show_export_downloads:
-            _render_plotly_multiformat_downloads(
-                "innovation",
-                brokerage_profile_fig,
-                "Biblio-HUB_structural_hole_brokerage_profile",
-                width=1800,
-                height=1200,
-                key_prefix="innovation_structural_hole_profile",
-            )
+        if show_export_downloads and get_plotly_static_export_status().get("available", False):
+            download_plotly_button(brokerage_profile_fig, f"Biblio-HUB_structural_hole_brokerage_profile.{bundle_format_value}", "Download Structural Hole Profile")
 
     robustness_summary_fig = render_brokerage_robustness_summary(robustness_snapshot, top_stable_count=8)
     if robustness_summary_fig is not None:
@@ -490,21 +480,13 @@ def render_innovation_analysis_panel(df, bundle_format_value=None, halt_if_missi
             default_primary=SCIENTIFIC_COLORWAY[0],
             default_secondary=SCIENTIFIC_COLORWAY[1],
             default_height=700,
-            show_legend_default=True,
             allow_color_controls=False,
             preserve_original_colors=True,
         )
         robustness_summary_fig = apply_publication_style_with_overrides(robustness_summary_fig, robustness_style)
         render_plotly_chart(robustness_summary_fig, width="stretch")
-        if show_export_downloads:
-            _render_plotly_multiformat_downloads(
-                "innovation",
-                robustness_summary_fig,
-                "Biblio-HUB_brokerage_robustness_summary",
-                width=2000,
-                height=1200,
-                key_prefix="innovation_brokerage_robustness",
-            )
+        if show_export_downloads and get_plotly_static_export_status().get("available", False):
+            download_plotly_button(robustness_summary_fig, f"Biblio-HUB_brokerage_robustness_summary.{bundle_format_value}", "Download Brokerage Robustness Summary")
 
     with st.expander("Preview Innovation Report", expanded=False):
         st.code(innovation_report, language="markdown")
@@ -833,6 +815,7 @@ def render_export_center(df, keywords_list, keyword_freq, cooccurrence, dedup_re
                     export_format=m_format.lower(),
                     network_export_modes=_current_network_export_modes(),
                     analysis_parameters=_current_export_analysis_parameters(m_format.lower()),
+                    cached_bertopic=st.session_state.get("bt_cached_result"),
                 )
                 st.session_state["master_export_job_id"] = job_id
                 st.rerun()

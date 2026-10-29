@@ -1,0 +1,269 @@
+virus,year,global_pubs
+Chikungunya,2021,803
+Chikungunya,2024,709
+Chikungunya,2023,701
+Chikungunya,2018,831
+Chikungunya,2019,726
+Chikungunya,2022,767
+Chikungunya,2015,424
+Chikungunya,2025,881
+Chikungunya,2020,844
+Chikungunya,2008,113
+Chikungunya,2017,698
+Chikungunya,2006,22
+Chikungunya,2009,140
+Chikungunya,2016,626
+Chikungunya,2011,166
+Chikungunya,2026,437
+Chikungunya,2012,216
+Chikungunya,2014,283
+Chikungunya,2010,172
+Chikungunya,2013,234
+Chikungunya,2007,47
+Chikungunya,2005,7
+Chikungunya,1998,4
+Chikungunya,1996,5
+Chikungunya,1993,7
+Chikungunya,1986,6
+Chikungunya,1990,2
+Chikungunya,1992,6
+Chikungunya,2002,4
+Chikungunya,2000,3
+Chikungunya,1991,6
+Chikungunya,2004,12
+Chikungunya,1994,6
+Chikungunya,1985,2
+Chikungunya,2001,2
+Chikungunya,1989,1
+Chikungunya,1999,8
+Chikungunya,1995,2
+Chikungunya,1997,2
+Chikungunya,1988,1
+Chikungunya,2003,2
+Chikungunya,1987,2
+Dengue,2025,1991
+Dengue,2013,1135
+Dengue,2024,1681
+Dengue,2026,1247
+Dengue,2023,1607
+Dengue,2019,1778
+Dengue,2017,1732
+Dengue,2018,1752
+Dengue,2022,1716
+Dengue,2021,1957
+Dengue,2016,1600
+Dengue,2020,2004
+Dengue,2015,1319
+Dengue,2014,1228
+Dengue,2011,795
+Dengue,2012,958
+Dengue,1984,47
+Dengue,2010,706
+Dengue,2008,571
+Dengue,1988,39
+Dengue,2003,241
+Dengue,2009,646
+Dengue,2005,317
+Dengue,2007,451
+Dengue,1989,45
+Dengue,2006,401
+Dengue,2002,193
+Dengue,2001,178
+Dengue,2000,166
+Dengue,1998,146
+Dengue,2004,273
+Dengue,1995,79
+Dengue,1997,113
+Dengue,1996,110
+Dengue,1991,70
+Dengue,1979,46
+Dengue,1994,79
+Dengue,1985,37
+Dengue,1980,35
+Dengue,1993,85
+Dengue,1992,71
+Dengue,1999,155
+Dengue,1965,27
+Dengue,1978,37
+Dengue,1977,37
+Dengue,1935,2
+Dengue,1966,19
+Dengue,1976,30
+Dengue,1958,8
+Dengue,1948,4
+Dengue,1987,54
+Dengue,1952,9
+Dengue,1990,56
+Dengue,1981,44
+Dengue,1945,6
+Dengue,1946,13
+Dengue,1986,40
+Dengue,1947,7
+Dengue,1982,46
+Dengue,1954,6
+Dengue,1967,18
+Dengue,1964,19
+Dengue,1968,14
+Dengue,1953,5
+Dengue,1983,43
+Dengue,1960,3
+Dengue,1932,2
+Dengue,1959,4
+Dengue,1963,7
+Dengue,1956,7
+Dengue,1929,5
+Dengue,1961,7
+Dengue,1950,2
+Dengue,1944,4
+Dengue,1951,4
+Dengue,1975,15
+Dengue,1931,3
+Dengue,1955,4
+Dengue,1957,1
+Dengue,1962,4
+Dengue,2027,4
+Dengue,1928,5
+Dengue,1941,1
+Dengue,1972,11
+Dengue,1969,24
+Dengue,1970,22
+Dengue,1971,16
+Dengue,1973,30
+Dengue,1915,9
+Dengue,1937,1
+Dengue,1936,2
+Dengue,1925,3
+Dengue,1914,2
+Dengue,1943,2
+Dengue,1930,4
+Dengue,1923,5
+Dengue,1920,1
+Dengue,1902,3
+Dengue,1911,1
+Dengue,1926,3
+Dengue,1921,2
+Dengue,1907,9
+Dengue,1916,2
+Dengue,1974,15
+Dengue,1908,2
+Dengue,1905,5
+Dengue,1919,1
+Dengue,1913,1
+Dengue,1906,14
+Dengue,1909,1
+Dengue,1904,2
+Dengue,1924,3
+Dengue,1918,1
+Zika,2025,894
+Zika,2024,845
+Zika,2016,640
+Zika,2023,927
+Zika,2009,2
+Zika,2020,1359
+Zika,2022,1035
+Zika,2026,454
+Zika,2021,1378
+Zika,2017,1230
+Zika,2018,1288
+Zika,2019,1271
+Zika,2015,18
+Zika,2014,18
+Zika,2013,4
+Zika,2007,1
+Zika,2012,6
+Zika,2003,3
+Zika,2006,3
+Zika,2001,3
+Zika,2004,2
+Zika,2002,1
+Zika,2010,2
+Zika,2008,3
+Zika,2011,2
+Zika,2000,1
+Zika,2027,1
+Zika,2005,3
+Zika,1987,1
+West Nile,2025,451
+West Nile,2024,376
+West Nile,2023,403
+West Nile,2026,263
+West Nile,2022,437
+West Nile,2021,510
+West Nile,2020,483
+West Nile,2019,542
+West Nile,2017,552
+West Nile,2018,521
+West Nile,2016,530
+West Nile,2015,504
+West Nile,2014,522
+West Nile,2013,527
+West Nile,2012,481
+West Nile,2011,514
+West Nile,2003,196
+West Nile,1955,4
+West Nile,1964,8
+West Nile,1953,10
+West Nile,1954,16
+West Nile,1984,11
+West Nile,1942,2
+West Nile,2010,415
+West Nile,2000,53
+West Nile,2009,386
+West Nile,2006,393
+West Nile,1943,4
+West Nile,2002,87
+West Nile,1965,15
+West Nile,1987,18
+West Nile,2008,414
+West Nile,2004,275
+West Nile,2007,406
+West Nile,2005,315
+West Nile,2001,127
+West Nile,1959,6
+West Nile,1977,14
+West Nile,1980,10
+West Nile,1958,10
+West Nile,1991,30
+West Nile,1951,7
+West Nile,1992,24
+West Nile,1952,5
+West Nile,1975,7
+West Nile,1999,23
+West Nile,1956,9
+West Nile,1966,8
+West Nile,1957,12
+West Nile,1976,15
+West Nile,1946,5
+West Nile,1990,14
+West Nile,1985,12
+West Nile,1998,12
+West Nile,1988,19
+West Nile,1967,13
+West Nile,1986,20
+West Nile,1989,15
+West Nile,1982,17
+West Nile,1993,27
+West Nile,1996,20
+West Nile,1981,12
+West Nile,1983,13
+West Nile,1979,11
+West Nile,1995,13
+West Nile,1994,23
+West Nile,1978,8
+West Nile,1950,4
+West Nile,1997,13
+West Nile,1963,10
+West Nile,1948,1
+West Nile,1961,6
+West Nile,1962,6
+West Nile,1949,1
+West Nile,1968,13
+West Nile,1960,6
+West Nile,1944,4
+West Nile,1974,4
+West Nile,1971,3
+West Nile,1972,5
+West Nile,1970,9
+West Nile,1969,4
+West Nile,1973,1
+West Nile,1945,2

@@ -690,7 +690,7 @@ def render_publication_citation_dual_axis_figure(trend_df):
             y=trend_df["Avg_Citations"],
             name="Average Citations",
             mode="lines+markers",
-            line=dict(color="#BFA7A8", width=1.8),
+            line=dict(color="#BFA7A8", width=2),
             marker=dict(size=5),
             yaxis="y2",
         )
